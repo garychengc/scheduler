@@ -10,16 +10,6 @@ export default function DayListItem(props) {
     "day-list__item--full": props.spots === 0
   });
 
-  // let dayClass = "day-list__item";
-
-  // if (props.selected) {
-  //   dayClass += "--selected";
-  // }
-
-  // if (props.spots === 0) {
-  //   dayClass += "--full";
-  // }
-
   function formatSpots(props) {
     if (props.spots === 0) {
       return "no spots remaining";
