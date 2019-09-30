@@ -4,8 +4,8 @@ import InterviewerListItem from "./InterviewerListItem";
 
 export default function InterviewerList({
   interviewers,
-  interviewer,
-  setInterviewer
+  value,
+  onChange
 }) {
   return (
     <section className="interviewers">
@@ -14,11 +14,11 @@ export default function InterviewerList({
         {interviewers.map(interviewerInfo => {
           return (
             <InterviewerListItem
-              id={interviewerInfo.id}
+              key={interviewerInfo.id}
               avatar={interviewerInfo.avatar}
               name={interviewerInfo.name}
-              selected={interviewerInfo.id === interviewer}
-              setInterviewer={setInterviewer}
+              selected={interviewerInfo.id === value}
+              setInterviewer={() => onChange(interviewerInfo.id)}
             />
           );
         })}
