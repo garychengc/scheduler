@@ -1,27 +1,24 @@
 import React from "react";
-import "components/DayListItem.scss";
+import "./DayListItem.scss";
 import classNames from "classnames";
 
 
 
-
-
-
 export default function DayListItem(props) {
-  // let dayClass = classNames("day-list__item",{
-  //   "--selected": props.selected,
-  //   "--full": props.spots === 0
-  // });
+  let dayClass = classNames("day-list__item",{
+    "day-list__item--selected": props.selected,
+    "day-list__item--full": props.spots === 0
+  });
 
-  let dayClass = "day-list__item";
+  // let dayClass = "day-list__item";
 
-  if (props.selected) {
-    dayClass += "--selected";
-  }
+  // if (props.selected) {
+  //   dayClass += "--selected";
+  // }
 
-  if (props.spots === 0) {
-    dayClass += "--full";
-  }
+  // if (props.spots === 0) {
+  //   dayClass += "--full";
+  // }
 
   function formatSpots(props) {
     if (props.spots === 0) {
