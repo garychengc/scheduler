@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from 'react'
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import "index.scss";
@@ -143,7 +143,7 @@ storiesOf("Appointment", module)
   .add("Show", () => (
     <Show
       student="Lydia Miller-Jones"
-      interviewer={interviewer}
+      interviewer="I AM THE INTERVIEWER"
       onEdit={action("onEdit")}
       onDelete={action("onDelete")}
     />
@@ -163,14 +163,14 @@ storiesOf("Appointment", module)
     />
   ))
   .add("Create", () => (
-    <Form 
+    <Form
       interviewers={interviewers}
       onSave={action("onSave")}
       onCancel={action("onCancel")}
     />
   ))
   .add("Edit", () => (
-    <Form 
+    <Form
       name="Gary Chen"
       interviewers={interviewers}
       interviewer={interviewer.id}
@@ -178,3 +178,9 @@ storiesOf("Appointment", module)
       onCancel={action("onCancel")}
     />
   ))
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="12pm" />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ));
