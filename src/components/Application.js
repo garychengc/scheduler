@@ -3,7 +3,7 @@ import DayList from "./DayList";
 import Appointment from "components/Appointment";
 import "components/Application.scss";
 import axios from "axios";
-import { getAppointmentsForDay } from "../helpers/selectors.js";
+import { getAppointmentsForDay, getInterview } from "../helpers/selectors.js";
 
 // const appointments = [
 //   {
@@ -59,7 +59,8 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
   const setDay = day => setState({ ...state, day });
@@ -67,13 +68,19 @@ export default function Application(props) {
   // const setDays = days => setState(prev => ({ ...prev, days }));
 
   useEffect(() => {
-    Promise.all([axios.get("/api/days"), axios.get("/api/appointments")]).then(
-      all => {
-        const [days, appointments] = all;
-        // console.log(days, appointments);
-        setState(prev => ({ days: all[0].data, appointments: all[1].data }));
-      }
-    );
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
+    ]).then(all => {
+      const [days, appointments, interviewers] = all;
+      console.log(days, appointments, interviewers);
+      setState(prev => ({
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data
+      }));
+    });
 
     // axios
     //   .get("/api/days")
@@ -107,7 +114,12 @@ export default function Application(props) {
         {appointmentSchedule.map(appointmentTime => {
           return (
             <Fragment key={appointmentTime.id}>
-              <Appointment key={appointmentTime.id} {...appointmentTime} />
+              <Appointment
+                key={appointmentTime.id}
+                id={appointmentTime.id}
+                {...appointmentTime}
+                interview={getInterview(state, appointmentTime.interview)}
+              />
               <Appointment key="last" time="5pm" />
             </Fragment>
           );
