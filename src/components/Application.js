@@ -6,9 +6,6 @@ import axios from "axios";
 import { getAppointmentsForDay, getInterview } from "../helpers/selectors.js";
 
 export default function Application(props) {
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
-
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -17,8 +14,6 @@ export default function Application(props) {
   });
 
   const setDay = day => setState({ ...state, day });
-  // const setDays = days => setState({ ...state, days });
-  // const setDays = days => setState(prev => ({ ...prev, days }));
 
   useEffect(() => {
     Promise.all([
@@ -34,13 +29,6 @@ export default function Application(props) {
         interviewers: all[2].data
       }));
     });
-
-    // axios
-    //   .get("/api/days")
-    //   .then(res => {
-    //     // setDays(res.data);
-    //   })
-    //   .catch(error => console.log(error));
   }, []);
 
   const appointmentSchedule = getAppointmentsForDay(state, state.day);
