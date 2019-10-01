@@ -12,10 +12,9 @@ export function getAppointmentsForDay(state, day) {
 }
 
 export function getInterview(state, interview) {
-  let interviewObj = {};
   if (interview === null) return null;
 
-  interviewObj = { student: interview.student };
+  const interviewObj = { student: interview.student };
   const interviewerID = interview.interviewer;
 
   for (let key in state.interviewers) {

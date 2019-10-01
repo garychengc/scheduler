@@ -5,53 +5,6 @@ import "components/Application.scss";
 import axios from "axios";
 import { getAppointmentsForDay, getInterview } from "../helpers/selectors.js";
 
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm"
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png"
-//       }
-//     }
-//   },
-//   {
-//     id: 3,
-//     time: "2pm"
-//   },
-//   {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Archie Cohen",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png"
-//       }
-//     }
-//   },
-//   {
-//     id: 5,
-//     time: "4pm",
-//     interview: {
-//       student: "Hello-World",
-//       interviewer: {
-//         id: 2,
-//         name: "Jason Chou",
-//         avatar: "https://i.imgur.com/LpaY82x.png"
-//       }
-//     }
-//   }
-// ];
-
 export default function Application(props) {
   // const [day, setDay] = useState("Monday");
   // const [days, setDays] = useState([]);
@@ -112,13 +65,14 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {appointmentSchedule.map(appointmentTime => {
+          const interview = getInterview(state, appointmentTime.interview);
           return (
             <Fragment key={appointmentTime.id}>
               <Appointment
                 key={appointmentTime.id}
                 id={appointmentTime.id}
                 {...appointmentTime}
-                interview={getInterview(state, appointmentTime.interview)}
+                interview={interview}
               />
               <Appointment key="last" time="5pm" />
             </Fragment>
