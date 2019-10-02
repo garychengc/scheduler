@@ -52,11 +52,21 @@ export default function Appointment(props) {
     return nameOfStudent;
   }
 
-  function interviewerInfo() {
+  function interviewerID() {
+    let interviewerID;
+    if (props.interview !== null) {
+      interviewerID = props.interview.interviewer.id;
+    }
+    return interviewerID;
+  }
+
+
+  function interviewerName() {
     let interviewerName;
     if (props.interview !== null) {
-      interviewerName = props.interview.interviewer.id;
+      interviewerName = props.interview.interviewer.name;
     }
+    console.log(interviewerName)
     return interviewerName;
   }
 
@@ -73,7 +83,7 @@ export default function Appointment(props) {
           studentName={studentName()}
           onSave={save}
           onCancel={back}
-          interviewer={interviewerInfo()}
+          interviewer={interviewerID()}
         />
       )}
       {mode === SAVING && <Status message="Saving" />}
@@ -81,8 +91,9 @@ export default function Appointment(props) {
       {mode === DELETING && <Status message="Deleting" />}
       {mode === SHOW && (
         <Show
-          student={props.interview.student}
-          interviewer={props.interview.interviewer.name}
+          student={studentName()}
+          // interviewer={props.interview.interviewer.name}
+          interviewer={interviewerName()}
           onDelete={confirm}
           onEdit={edit}
         />
