@@ -62,11 +62,14 @@ export default function Application(props) {
       .catch(error => console.log(error));
   }
 
+
+
   const appointmentSchedule = getAppointmentsForDay(state, state.day);
   const interviewersSchedule = getInterviewersByDay(state, state.day);
 
   const schedule = appointmentSchedule.map(appointment => {
     const interview = getInterview(state, appointment.interview);
+    // console.log(interview);
     return (
       <Appointment
         key={appointment.id}

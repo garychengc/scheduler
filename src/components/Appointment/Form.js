@@ -3,22 +3,22 @@ import InterviewerList from "../InterviewerList.js";
 import Button from "../Button.js";
 
 export default function Form(props) {
-  const [name, setName] = useState(props.name || "" );
+  const [name, setName] = useState(props.studentName || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
   const reset = () => {
     setName("");
     setInterviewer(null);
-  }
+  };
 
   const cancel = () => {
     props.onCancel();
     reset();
-  }
+  };
 
   const save = () => {
     props.onSave(name, interviewer);
-  }
+  };
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -30,7 +30,7 @@ export default function Form(props) {
             type="text"
             placeholder="Enter Student Name"
             value={name}
-            onChange={(event) => setName(event.target.value)}
+            onChange={event => setName(event.target.value)}
             /*
           This must be a controlled component
         */
