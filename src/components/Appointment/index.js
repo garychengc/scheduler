@@ -15,6 +15,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -28,12 +30,24 @@ export default function Appointment(props) {
     };
 
     transition(SAVING);
-    props.bookInterview(props.id, interview).then(() => transition(SHOW));
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => {
+        console.log(error);
+        transition(ERROR_SAVE);
+      });
   }
 
   function cancel() {
     transition(DELETING);
-    props.cancelInterview(props.id).then(() => transition(EMPTY));
+    props
+      .cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch(error => {
+        console.log(error);
+        transition(ERROR_DELETE);
+      });
   }
 
   function confirm() {
@@ -60,13 +74,11 @@ export default function Appointment(props) {
     return interviewerID;
   }
 
-
   function interviewerName() {
     let interviewerName;
     if (props.interview !== null) {
       interviewerName = props.interview.interviewer.name;
     }
-    console.log(interviewerName)
     return interviewerName;
   }
 

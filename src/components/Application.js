@@ -55,14 +55,12 @@ export default function Application(props) {
 
   function cancelInterview(id) {
     return axios
-      .delete(`/api/appointments/${id}`, {data: null})
+      .delete(`/api/appointments/${id}`, { data: null })
       .then(res => {
         // console.log(res);
       })
       .catch(error => console.log(error));
   }
-
-
 
   const appointmentSchedule = getAppointmentsForDay(state, state.day);
   const interviewersSchedule = getInterviewersByDay(state, state.day);
