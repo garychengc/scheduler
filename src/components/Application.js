@@ -50,7 +50,7 @@ export default function Application(props) {
       .then(res => {
         setState({ ...state, appointments });
       })
-      .catch(error => console.log(error));
+      // .catch(error => console.log(error));
   }
 
   function cancelInterview(id) {
@@ -59,7 +59,7 @@ export default function Application(props) {
       .then(res => {
         // console.log(res);
       })
-      .catch(error => console.log(error));
+      // .catch(error => console.log(error));
   }
 
   const appointmentSchedule = getAppointmentsForDay(state, state.day);

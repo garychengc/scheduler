@@ -6,6 +6,7 @@ import Empty from "./Empty.js";
 import Form from "./Form.js";
 import Status from "./Status.js";
 import Confirm from "./Confirm.js";
+import Error from "./Error.js";
 import useVisualMode from "../../hooks/useVisualMode.js";
 
 const EMPTY = "EMPTY";
@@ -34,8 +35,8 @@ export default function Appointment(props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(error => {
-        console.log(error);
-        transition(ERROR_SAVE);
+        transition(ERROR_SAVE, true);
+        // console.log(error);
       });
   }
 
@@ -45,8 +46,8 @@ export default function Appointment(props) {
       .cancelInterview(props.id)
       .then(() => transition(EMPTY))
       .catch(error => {
-        console.log(error);
-        transition(ERROR_DELETE);
+        transition(ERROR_DELETE, true);
+        // console.log(error);
       });
   }
 
@@ -99,8 +100,14 @@ export default function Appointment(props) {
         />
       )}
       {mode === SAVING && <Status message="Saving" />}
+      {mode === ERROR_SAVE && (
+        <Error message="Couldn't Save the Appointment" onClose={back} />
+      )}
       {mode === CONFIRM && <Confirm onConfirm={cancel} onCancel={back} />}
       {mode === DELETING && <Status message="Deleting" />}
+      {mode === ERROR_DELETE && (
+        <Error message="Couldn't Delete the Appointment" onClose={back} />
+      )}
       {mode === SHOW && (
         <Show
           student={studentName()}
