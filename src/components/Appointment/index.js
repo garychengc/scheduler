@@ -11,6 +11,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -27,6 +28,11 @@ export default function Appointment(props) {
     props.bookInterview(props.id, interview).then(() => transition(SHOW));
   }
 
+  function cancel() {
+    transition(DELETING);
+    props.cancelInterview(props.id).then(() => transition(EMPTY));
+  }
+
   return (
     <article className="appointment" id={props.id}>
       <Header time={props.time} />
@@ -35,10 +41,12 @@ export default function Appointment(props) {
         <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
       )}
       {mode === SAVING && <Status message="Saving" />}
+      {mode === DELETING && <Status message="Deleting"/>}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer.name}
+          onDelete={cancel}
         />
       )}
     </article>
