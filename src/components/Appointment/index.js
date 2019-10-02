@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { Fragment } from "react";
+import React from "react";
 import Header from "./Header.js";
 import Show from "./Show.js";
 import Empty from "./Empty.js";
@@ -15,16 +15,16 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
   return (
-    <Fragment>
+    <article className="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === CREATE && <Form interviewers={[]} onCancel={back}/>}
+      {mode === CREATE && <Form interviewers={props.interviewers} onCancel={back}/>}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer.name}
         />
       )}
-    </Fragment>
+    </article>
   );
 }
