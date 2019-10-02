@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
 import "components/Application.scss";
@@ -25,7 +25,7 @@ export default function Application(props) {
       axios.get("/api/appointments"),
       axios.get("/api/interviewers")
     ]).then(all => {
-      const [days, appointments, interviewers] = all;
+      // const [days, appointments, interviewers] = all;
       setState(prev => ({
         ...prev,
         days: all[0].data,
@@ -34,6 +34,11 @@ export default function Application(props) {
       }));
     });
   }, []);
+
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
+
 
   const appointmentSchedule = getAppointmentsForDay(state, state.day);
   const interviewersSchedule = getInterviewersByDay(state, state.day);
@@ -47,6 +52,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewersSchedule}
+        bookInterview={bookInterview}
       />
     );
   });
