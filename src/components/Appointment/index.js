@@ -78,7 +78,6 @@ export default function Appointment(props) {
   function interviewerName() {
     let interviewerName;
     if (props.interview !== null) {
-      console.log(props.interview);
       interviewerName = props.interview.interviewer.name;
     }
     return interviewerName;
