@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header.js";
 import Show from "./Show.js";
 import Empty from "./Empty.js";
@@ -51,6 +51,16 @@ export default function Appointment(props) {
       });
   }
 
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+      transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+      transition(EMPTY);
+    }
+  }, [props.interview, transition, mode]);
+
+
   function confirm() {
     transition(CONFIRM);
   }
@@ -86,7 +96,7 @@ export default function Appointment(props) {
   return (
     <article className="appointment" id={props.id}>
       <Header time={props.time} />
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === EMPTY  && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CREATE && (
         <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
       )}
@@ -108,7 +118,7 @@ export default function Appointment(props) {
       {mode === ERROR_DELETE && (
         <Error message="Couldn't Delete the Appointment" onClose={back} />
       )}
-      {mode === SHOW && (
+      {mode === SHOW && props.interview && (
         <Show
           student={studentName()}
           // interviewer={props.interview.interviewer.name}
