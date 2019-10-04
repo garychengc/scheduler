@@ -43,46 +43,19 @@
 //       }
 
 //       case UPDATE_INTERVIEW: {
-//         const appointment = {
-//           ...state.appointments[action.message.id],
-//           interview: { ...action.message.interview }
+//         return {
+//           ...state,
+//           appointments: action.appointments,
+//           days: action.days
 //         };
-
-//         const appointments = {
-//           ...state.appointments,
-//           [action.message.id]: appointment
-//         };
-
-//         let dayID = getDayID(action.message.id);
-//         let days = updateObjectInArray(state.days, {
-//           index: dayID,
-//           item: state.days[dayID].spots - 1
-//         });
-//         console.log(days);
-
-//         return { ...state, appointments: appointments, days: days };
 //       }
 
 //       case DELETE_INTERVIEW: {
-//         const appointment = {
-//           ...state.appointments[action.message.id],
-//           interview: null
+//         return {
+//           ...state,
+//           appointments: action.appointments,
+//           days: action.days
 //         };
-
-//         const appointments = {
-//           ...state.appointments,
-//           [action.message.id]: appointment
-//         };
-
-//         let dayID = getDayID(action.message.id);
-//         console.log("inside delete_interview")
-//         console.log(dayID);
-//         let days = updateObjectInArray(state.days, {
-//           index: dayID,
-//           item: state.days[dayID].spots + 1
-//         });
-
-//         return { ...state, appointments: appointments, days: days };
 //       }
 
 //       default:
@@ -138,17 +111,54 @@
 //     };
 
 //     webSocket.onmessage = function(e) {
-//       console.log("inside receive");
 //       const message = JSON.parse(e.data);
 //       if (message.type === "SET_INTERVIEW") {
 //         // axios.get("/api/days").then(res => dispatch ({type: SET_DAYS, days: res.data}))
-//         if (message.interview === null) {
-//           dispatch({ type: "DELETE_INTERVIEW", message });
-//         } else {
-//           dispatch({ type: "UPDATE_INTERVIEW", message });
+
+//         if (state.days.length > 0) {
+//           if (message.interview === null) {
+//             const appointment = {
+//               ...state.appointments[message.id],
+//               interview: null
+//             };
+
+//             const appointments = {
+//               ...state.appointments,
+//               [message.id]: appointment
+//             };
+
+//             let dayID = getDayID(message.id);
+//             let days;
+
+//             if (state.days[dayID]) {
+//               days = updateObjectInArray(state.days, {
+//                 index: dayID,
+//                 item: state.days[dayID].spots + 1
+//               });
+//             }
+//             dispatch({ type: "DELETE_INTERVIEW", appointments, days: days });
+//           } else {
+//             const appointment = {
+//               ...state.appointments[message.id],
+//               interview: { ...message }
+//             };
+
+//             const appointments = {
+//               ...state.appointments,
+//               [message.id]: appointment
+//             };
+
+//             let dayID = getDayID(message.id);
+//             let days = updateObjectInArray(state.days, {
+//               index: dayID,
+//               item: state.days[dayID].spots - 1
+//             });
+
+//             dispatch({ type: "UPDATE_INTERVIEW", appointments, days: days });
+//           }
 //         }
 //       }
-//       return (() => webSocket.close())
+//       return () => webSocket.close();
 //     };
 //   }, []);
 
@@ -167,27 +177,27 @@
 //     });
 //   }
 
-//   // function getDayID(id) {
-//   //   for (let i = 0; i < state.days.length; i++) {
-//   //     if (state.days[i].appointments.includes(id)) {
-//   //       return i;
-//   //     }
-//   //   }
-//   // }
-
-//   const getDayID = appointmentId => {
-//     let dayId = 0;
-//     if (appointmentId > 20) {
-//       dayId = 4;
-//     } else if (appointmentId > 15) {
-//       dayId = 3;
-//     } else if (appointmentId > 10) {
-//       dayId = 2;
-//     } else if (appointmentId > 5) {
-//       dayId = 1;
+//   function getDayID(id) {
+//     for (let i = 0; i < state.days.length; i++) {
+//       if (state.days[i].appointments.includes(id)) {
+//         return i;
+//       }
 //     }
-//     return dayId;
-//   };
+//   }
+
+//   // const getDayID = appointmentId => {
+//   //   let dayId = 0;
+//   //   if (appointmentId > 20) {
+//   //     dayId = 4;
+//   //   } else if (appointmentId > 15) {
+//   //     dayId = 3;
+//   //   } else if (appointmentId > 10) {
+//   //     dayId = 2;
+//   //   } else if (appointmentId > 5) {
+//   //     dayId = 1;
+//   //   }
+//   //   return dayId;
+//   // };
 
 //   function bookInterview(id, interview) {
 //     const appointment = {
@@ -200,7 +210,7 @@
 //       [id]: appointment
 //     };
 
-//     if(!state.appointments[id].interview) {
+//     if (!state.appointments[id].interview) {
 //       const dayID = getDayID(id);
 //       let days = updateObjectInArray(state.days, {
 //         index: dayID,
@@ -208,8 +218,6 @@
 //       });
 //       dispatch({ type: SET_REMAININGSPOTS, days });
 //     }
-
-
 
 //     return axios.put(`/api/appointments/${id}`, { interview }).then(res => {
 //       // setState({ ...state, appointments });
