@@ -117,6 +117,7 @@
 
 //         if (state.days.length > 0) {
 //           if (message.interview === null) {
+            
 //             const appointment = {
 //               ...state.appointments[message.id],
 //               interview: null
