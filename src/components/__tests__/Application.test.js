@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import {
   render,
@@ -14,7 +15,6 @@ import {
 } from "@testing-library/react";
 
 import Application from "components/Application";
-import { debug } from "util";
 
 afterEach(cleanup);
 
@@ -57,7 +57,7 @@ describe("Application", () => {
   });
 
   it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
 
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
@@ -81,7 +81,33 @@ describe("Application", () => {
     );
 
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
+  });
 
-    // debug();
+  it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
+    const { container, debug } = render(<Application />);
+
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    ); 
+    fireEvent.click(getByAltText(appointment, "Edit"));
+
+    fireEvent.change(getByPlaceholderText(appointment, "Enter Student Name"), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    fireEvent.click(getByText(appointment, "Save"));
+    expect(getByText(container, "Saving")).toBeInTheDocument();
+    
+    await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
+    expect(getByText(container, "Lydia Miller-Jones")).toBeInTheDocument();
+    debug();
+
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 });
