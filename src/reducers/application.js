@@ -51,7 +51,7 @@ export default function reducer(state, action) {
       });
       return { ...state, days: newdays };
     default:
-      throw new Error("Tried to use unsupported action type " + action.type);
+      throw new Error("tried to reduce with unsupported action type " + action.type);
   }
 }
 

@@ -7,8 +7,6 @@ import reducer, {
   UPDATE_SPOTS_REMAINING
 } from "reducers/application";
 
-
-
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
