@@ -7,11 +7,20 @@ The users can add, save, modify, and delete the appointments based on the curren
 
 ## Final Product
 
-!["Screenshot of the home page"]()
-!["Screenshot of creating a new interview appointment"]()
-!["Screenshot of creating a deleting an interview appointment"]()
-!["Screenshot of the Cypress E2E Test"]()
-!["Screenshot of the Jest Unit Test"]()
+### Open Page
+!["Screenshot of the home page"](https://github.com/garychengc/scheduler/blob/master/docs/homepage.png?raw=true)
+
+### Creating a New Interview Appointment
+!["Screenshot of creating a new interview appointment"](https://github.com/garychengc/scheduler/blob/master/docs/creatingpage.png?raw=true)
+
+### Delete an Interview Appointment
+!["Screenshot of creating a deleting an interview appointment"](https://github.com/garychengc/scheduler/blob/master/docs/deletingpage.png?raw=true)
+
+### Cypress E2E Test
+!["Screenshot of the Cypress E2E Test"](https://github.com/garychengc/scheduler/blob/master/docs/cypresstest.png?raw=true)
+
+### Jest Unit Test
+!["Screenshot of the Jest Unit Test"](https://github.com/garychengc/scheduler/blob/master/docs/jesttest.png?raw=true)
 
 ## Dependencies
 - axios
