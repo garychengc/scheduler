@@ -19,7 +19,7 @@ export default function InterviewerList({ interviewers, value, onChange }) {
               key={interviewerInfo.id}
               avatar={interviewerInfo.avatar}
               name={interviewerInfo.name}
-              selected={interviewerInfo.id === value}
+              selected={interviewerInfo.id === value || null}
               setInterviewer={() => onChange(interviewerInfo.id)}
             />
           );

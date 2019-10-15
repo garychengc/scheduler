@@ -36,7 +36,6 @@ export default function Appointment(props) {
       .then(() => transition(SHOW))
       .catch(error => {
         transition(ERROR_SAVE, true);
-        // console.log(error);
       });
   }
 
@@ -60,7 +59,6 @@ export default function Appointment(props) {
     }
   }, [props.interview, transition, mode]);
 
-
   function confirm() {
     transition(CONFIRM);
   }
@@ -80,7 +78,7 @@ export default function Appointment(props) {
   function interviewerID() {
     let interviewerID;
     if (props.interview !== null) {
-      interviewerID = props.interview.interviewer.id;
+      interviewerID = props.interview.interviewer.id || 1;
     }
     return interviewerID;
   }
@@ -88,7 +86,11 @@ export default function Appointment(props) {
   function interviewerName() {
     let interviewerName;
     if (props.interview !== null) {
-      interviewerName = props.interview.interviewer.name;
+      if (props.interview.interviewer) {
+        interviewerName = props.interview.interviewer.name;
+      } else {
+        interviewerName = "";
+      }
     }
     return interviewerName;
   }
@@ -96,7 +98,7 @@ export default function Appointment(props) {
   return (
     <article className="appointment" id={props.id} data-testid="appointment">
       <Header time={props.time} />
-      {mode === EMPTY  && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CREATE && (
         <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
       )}
@@ -121,7 +123,6 @@ export default function Appointment(props) {
       {mode === SHOW && props.interview && (
         <Show
           student={studentName()}
-          // interviewer={props.interview.interviewer.name}
           interviewer={interviewerName()}
           onDelete={confirm}
           onEdit={edit}
